@@ -1,0 +1,20 @@
+@startuml UC2_Context
+
+top to bottom direction
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+!include <C4/C4_Container.puml>
+
+Person(user, "Пользователь", "Клиент банка")
+
+System(app, "Интернет-банк", "Система взаимодействия с банком")
+System(bank, "Банковская система", "")
+
+System_Ext(provider, "Провайдер")
+
+Rel(user, app, "Формирование заявки/ подтверждение операции")
+Rel(app, bank, "Обработка запроса")
+Rel(bank, provider, "Код подтверждения")
+Rel(provider, user, "Код подтверждения")
+
+@enduml
