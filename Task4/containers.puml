@@ -1,0 +1,47 @@
+@startuml UC3_Containers
+
+top to bottom direction
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+!include <C4/C4_Container.puml>
+
+Person(user, "Пользователь", "Клиент банка")
+Person(operator, "Оператор", "Кол-центр банка")
+Person(operator_ext, "Оператор", "Партнерский кол-центр")
+
+Container_Boundary(call_system, "Система кол-центра") {
+    Container(web, "Веб-интерфейс", "React.js")
+    Container(back, "Бэкенд", "Java Spring Boot")
+    ContainerDb(call_db, "CallCenter Db", "PostgreSQL")
+    Container(call_deposit, "Сервис депозитов", "Java Spring Boot")
+}
+
+
+
+Container_Boundary(bank, "Банковская система") {
+    Container(abs, "АБС", "Delphi")
+    ContainerDb(db, "ABS Db", "Oracle")
+    Container(percent, "Сервис ставок депозита", "C#, .NET Framework")
+}
+
+System_Ext(call_system_ext, "Система партнерского кол-центра")
+
+Rel(user, operator, "Запрос данных по депозитам")
+Rel(user, operator_ext, "Запрос данных по депозитам")
+Rel(operator, web, "Запрос данных")
+
+Rel(web, back, "Запрос оператора")
+Rel(back, call_db, "Хранение данных")
+Rel(web, call_deposit, "Запрос по депозитам")
+
+Rel(abs, percent, "Ставки")
+Rel_R(abs, db, "Хранение данных")
+
+
+Rel(back, abs, "Запрос данных")
+Rel(call_deposit, abs, "Запрос данных")
+Rel(operator_ext, call_system_ext, "Запрос данных")
+Rel_R(percent, call_system_ext, "Выгрузка данных")
+
+
+@enduml
