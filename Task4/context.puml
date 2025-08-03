@@ -1,0 +1,23 @@
+@startuml UC3_Context
+
+top to bottom direction
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+!include <C4/C4_Container.puml>
+
+Person(user, "Пользователь", "Клиент банка")
+Person(operator, "Оператор", "Кол-центр банка")
+Person(operator_ext, "Оператор", "Партнерский кол-центр")
+
+System(call_system, "Система кол-центра", "Система автоматизации CRM")
+System_Ext(call_system_ext, "Система партнерского кол-центра")
+System(bank, "Банковская система", "")
+
+Rel(user, operator, "Запрос данных по депозитам")
+Rel(user, operator_ext, "Запрос данных по депозитам")
+Rel(operator, call_system, "Запрос данных")
+Rel(operator_ext, call_system_ext, "Запрос данных")
+Rel(call_system, bank, "Запрос данных")
+Rel_R(bank, call_system_ext, "Выгрузка данных")
+
+@enduml

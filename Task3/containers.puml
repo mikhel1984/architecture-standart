@@ -9,7 +9,7 @@ Person(user, "Пользователь", "Клиент банка")
 
 Container_Boundary(app, "Интернет-банк") {
     Container(webapp, "Веб-клиент")
-    Container(gateway, "API Gateway", "Маршрутизация запросов")
+    Container(gateway, "API Gateway", "Kong")
     Container(monolith, "Монолит", "ASP.NET MVC 4.5")
     ContainerDb(monolith_db, "App Db", "MS SQL")
     Container(deposit, "Сервис депозитов", "ASP.NET MVC 4.5")
@@ -21,6 +21,7 @@ Container_Boundary(bank, "Банковская система") {
     Container(abs, "АБС", "Delphi")
     Container(sms, "СМС-шлюз", "")
     ContainerDb(db, "ABS Db", "Oracle")
+    Container(percent, "Сервис ставок депозита", "C#, .NET Framework")
 }
 
 System_Ext(provider, "Провайдер")
@@ -38,6 +39,7 @@ Rel(broker, abs, "Сообщения клиента")
 Rel_R(abs, sms, "Код подтверждения")
 Rel(abs, db, "Хранение данных")
 Rel(sms, provider, "Код подтверждения")
+Rel(abs, percent, "Ставки")
 
 Rel(provider, user, "Код подтверждения")
 
